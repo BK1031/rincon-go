@@ -2,6 +2,7 @@ package rincon
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 )
@@ -44,7 +45,7 @@ func (c *Client) Register(service Service, routes []string) (int, error) {
 	for _, route := range routes {
 		err = c.RegisterRoute(route)
 		if err != nil {
-			fmt.Println("error registering route:", err)
+			log.Println("error registering route:", err)
 		}
 	}
 
