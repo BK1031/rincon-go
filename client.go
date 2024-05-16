@@ -8,6 +8,7 @@ import (
 	"net/url"
 )
 
+// Client represents a client to the Rincon API.
 type Client struct {
 	baseURL           *url.URL
 	heartbeatMode     HeartbeatMode
@@ -16,8 +17,17 @@ type Client struct {
 	authPassword      string
 	userAgent         string
 	httpClient        *http.Client
+	service           *Service
 }
 
+// Config represents the configuration for a Rincon Client.
+// BaseURL is the URL of the Rincon server.
+// HeartbeatMode is the mode of the heartbeat. If it is set to
+// ServerHeartbeat, the Rincon server will send heartbeats to the client.
+// If it is set to ClientHeartbeat, the client will send heartbeats to the server.
+// HeartbeatInterval is the interval of the heartbeat.
+// AuthUser is the username for authentication.
+// AuthPassword is the password for authentication.
 type Config struct {
 	BaseURL           string
 	HeartbeatMode     HeartbeatMode
@@ -26,6 +36,9 @@ type Config struct {
 	AuthPassword      string
 }
 
+// New creates a new Rincon Client with the given Config.
+// It returns an error if the BaseURL is invalid or the
+// client cannot connect to the Rincon server.
 func New(config Config) (*Client, error) {
 	baseURL, err := url.Parse(config.BaseURL)
 	if err != nil {
@@ -68,6 +81,7 @@ func (c *Client) newRequest(method, path string, body interface{}) (*http.Reques
 	req.Header.Set("User-Agent", c.userAgent)
 	return req, nil
 }
+
 func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
