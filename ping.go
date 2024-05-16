@@ -7,7 +7,7 @@ type Ping struct {
 }
 
 func (c *Client) Ping() (*Ping, error) {
-	req, err := c.newRequest("GET", "/ping", nil)
+	req, err := c.newRequest("GET", "/rincon/ping", nil)
 	if err != nil {
 		return nil, err
 	}
