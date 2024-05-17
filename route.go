@@ -47,9 +47,11 @@ func (c *Client) RoutesForService(serviceName string) ([]Route, error) {
 	}
 
 	var routes []Route
-	_, _, err = c.do(req, &routes)
+	_, apiError, err := c.do(req, &routes)
 	if err != nil {
 		return nil, err
+	} else if apiError != nil {
+		return nil, fmt.Errorf("[%d] %s", apiError.StatusCode, apiError.Message)
 	}
 
 	return routes, nil
