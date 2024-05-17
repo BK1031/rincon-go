@@ -50,6 +50,7 @@ func (c *Client) Register(service Service, routes []string) (int, error) {
 			log.Printf("failed to register route %s: %s", route, err)
 		}
 	}
+	c.StartHeartbeat()
 	return newService.ID, nil
 }
 

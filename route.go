@@ -11,6 +11,8 @@ type Route struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
+// Routes returns the routes registered for the client's service.
+// If the client is not registered, an error will be returned.
 func (c *Client) Routes() ([]Route, error) {
 	if c.service == nil {
 		return nil, fmt.Errorf("client is not registered")
@@ -18,6 +20,8 @@ func (c *Client) Routes() ([]Route, error) {
 	return c.RoutesForService(c.service.Name)
 }
 
+// RegisterRoute registers a route for the client's service.
+// If the client is not already registered, an error will be returned.
 func (c *Client) RegisterRoute(route string) error {
 	if c.service == nil {
 		return fmt.Errorf("client is not registered")
@@ -40,6 +44,7 @@ func (c *Client) RegisterRoute(route string) error {
 	return nil
 }
 
+// RoutesForService returns the routes registered for the given service.
 func (c *Client) RoutesForService(serviceName string) ([]Route, error) {
 	req, err := c.newRequest("GET", "/rincon/services/"+serviceName+"/routes", nil)
 	if err != nil {
