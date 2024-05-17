@@ -64,9 +64,11 @@ func (c *Client) Deregister() error {
 		return err
 	}
 
-	_, _, err = c.do(req, nil)
+	_, apiError, err := c.do(req, nil)
 	if err != nil {
 		return err
+	} else if apiError != nil {
+		return fmt.Errorf("[%d] %s", apiError.StatusCode, apiError.Message)
 	}
 
 	c.service = nil
