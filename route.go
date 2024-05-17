@@ -2,6 +2,7 @@ package rincon
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -42,6 +43,28 @@ func (c *Client) RegisterRoute(route string) error {
 	}
 
 	return nil
+}
+
+func (c *Client) MatchRoute(route string) (*Service, error) {
+	if c.service == nil {
+		return nil, fmt.Errorf("client is not registered")
+	}
+	route = strings.TrimPrefix(route, "/")
+	route = strings.TrimSuffix(route, "/")
+	route = strings.ReplaceAll(route, "/", "<->")
+	req, err := c.newRequest("GET", "/rincon/match/"+route, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var service Service
+	_, apiError, err := c.do(req, &service)
+	if err != nil {
+		return nil, err
+	} else if apiError != nil {
+		return nil, fmt.Errorf("[%d] %s", apiError.StatusCode, apiError.Message)
+	}
+	return &service, nil
 }
 
 // RoutesForService returns the routes registered for the given service.
