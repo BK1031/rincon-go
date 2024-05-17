@@ -36,19 +36,20 @@ func (c *Client) Register(service Service, routes []string) (int, error) {
 	}
 
 	newService := new(Service)
-	_, err = c.do(req, newService)
+	_, apiError, err := c.do(req, newService)
 	if err != nil {
 		return 0, err
+	} else if apiError != nil {
+		return 0, fmt.Errorf("[%d] %s", apiError.StatusCode, apiError.Message)
 	}
-	c.service = newService
 
+	c.service = newService
 	for _, route := range routes {
 		err = c.RegisterRoute(route)
 		if err != nil {
-			log.Println("error registering route:", err)
+			log.Printf("failed to register route %s: %s", route, err)
 		}
 	}
-
 	return newService.ID, nil
 }
 
@@ -63,7 +64,7 @@ func (c *Client) Deregister() error {
 		return err
 	}
 
-	_, err = c.do(req, nil)
+	_, _, err = c.do(req, nil)
 	if err != nil {
 		return err
 	}

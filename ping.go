@@ -13,7 +13,7 @@ func (c *Client) Ping() (*Ping, error) {
 	}
 
 	ping := new(Ping)
-	_, err = c.do(req, ping)
+	_, _, err = c.do(req, ping)
 	if err != nil {
 		return nil, err
 	}

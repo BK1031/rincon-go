@@ -79,15 +79,26 @@ func (c *Client) newRequest(method, path string, body interface{}) (*http.Reques
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", c.userAgent)
+	req.SetBasicAuth(c.authUser, c.authPassword)
 	return req, nil
 }
 
-func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
+func (c *Client) do(req *http.Request, v interface{}) (*http.Response, *ErrorResponse, error) {
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	defer resp.Body.Close()
-	err = json.NewDecoder(resp.Body).Decode(v)
-	return resp, err
+	body, err := io.ReadAll(resp.Body)
+	if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
+		if v != nil {
+			err = json.Unmarshal(body, v)
+		}
+	} else {
+		respError := new(ErrorResponse)
+		err = json.Unmarshal(body, respError)
+		respError.StatusCode = resp.StatusCode
+		return resp, respError, err
+	}
+	return resp, nil, err
 }
