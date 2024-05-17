@@ -36,10 +36,10 @@ type Config struct {
 	AuthPassword      string
 }
 
-// New creates a new Rincon Client with the given Config.
+// NewClient creates a new Rincon Client with the given Config.
 // It returns an error if the BaseURL is invalid or the
 // client cannot connect to the Rincon server.
-func New(config Config) (*Client, error) {
+func NewClient(config Config) (*Client, error) {
 	baseURL, err := url.Parse(config.BaseURL)
 	if err != nil {
 		return nil, err

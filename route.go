@@ -45,6 +45,7 @@ func (c *Client) RegisterRoute(route string) error {
 	return nil
 }
 
+// MatchRoute returns the service that is registered to handle the given route.
 func (c *Client) MatchRoute(route string) (*Service, error) {
 	if c.service == nil {
 		return nil, fmt.Errorf("client is not registered")

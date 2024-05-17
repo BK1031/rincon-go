@@ -44,6 +44,7 @@ func (c *Client) Register(service Service, routes []string) (int, error) {
 	}
 
 	c.service = newService
+	c.userAgent = fmt.Sprintf("%s-%d", newService.Name, newService.ID)
 	for _, route := range routes {
 		err = c.RegisterRoute(route)
 		if err != nil {
