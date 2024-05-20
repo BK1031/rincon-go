@@ -55,7 +55,7 @@ func (c *Client) Register(service Service, routes []string) (int, error) {
 	return newService.ID, nil
 }
 
-// Deregister de-registers the client from the Rincon server.
+// Deregister deregisters the client from the Rincon server.
 func (c *Client) Deregister() error {
 	if c.service == nil {
 		return fmt.Errorf("client is not registered")
