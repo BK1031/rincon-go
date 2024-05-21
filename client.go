@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"fmt"
 	"net/http"
 	"net/url"
 )
@@ -18,6 +19,7 @@ type Client struct {
 	userAgent         string
 	httpClient        *http.Client
 	service           *Service
+	rincon 		  *Service
 }
 
 // Config represents the configuration for a Rincon Client.
@@ -55,6 +57,15 @@ func NewClient(config Config) (*Client, error) {
 	}
 	if _, err = client.Ping(); err != nil {
 		return nil, err
+	}
+	services, err := client.GetServicesByName("rincon")
+	if err != nil {
+		return nil, err
+	}
+	if len(services) == 0 {
+		return nil, fmt.Errorf("no rincon service instances found")
+	} else {
+		client.rincon = &services[0]
 	}
 	return client, nil
 }

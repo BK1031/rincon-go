@@ -23,6 +23,10 @@ func (c *Client) Service() *Service {
 	return c.service
 }
 
+func (c *Client) Rincon() *Service {
+	return c.rincon
+}
+
 // IsRegistered returns true if the client is registered.
 func (c *Client) IsRegistered() bool {
 	return c.service != nil
@@ -75,4 +79,21 @@ func (c *Client) Deregister() error {
 
 	c.service = nil
 	return nil
+}
+
+func (c *Client) GetServicesByName(name string) ([]Service, error) {
+	services := make([]Service, 0)
+	req, err := c.newRequest("GET", "/rincon/services/"+name, services)
+	if err != nil {
+		return nil, err
+	}
+
+	_, apiError, err := c.do(req, &services)
+	if err != nil {
+		return nil, err
+	} else if apiError != nil {
+		return nil, fmt.Errorf("[%d] %s", apiError.StatusCode, apiError.Message)
+	}
+
+	return services, nil
 }
