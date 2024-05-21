@@ -18,6 +18,8 @@ type Service struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
+// FormattedName returns the name of the service formatted to use
+// spaces and word capitalization instead of underscores.
 func (s Service) FormattedName() string {
 	words := strings.Split(s.Name, "_")
 	formattedName := ""
