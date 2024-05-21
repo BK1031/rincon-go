@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -15,6 +16,17 @@ type Service struct {
 	HealthCheck string    `json:"health_check"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	CreatedAt   time.Time `json:"created_at"`
+}
+
+func (s Service) FormattedName() string {
+	words := strings.Split(s.Name, "_")
+	formattedName := ""
+	for _, word := range words {
+		if len(word) > 0 {
+			formattedName += strings.ToUpper(string(word[0])) + strings.ToLower(word[1:]) + " "
+		}
+	}
+	return strings.TrimSpace(formattedName)
 }
 
 // Service returns the current service registration of the client.
