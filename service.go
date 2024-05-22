@@ -31,6 +31,12 @@ func (s Service) FormattedName() string {
 	return strings.TrimSpace(formattedName)
 }
 
+// FormattedNameWithVersion returns the formatted name of the service with
+// its version string appended.
+func (s Service) FormattedNameWithVersion() string {
+	return fmt.Sprintf("%s v%s", s.FormattedName(), s.Version)
+}
+
 // Service returns the current service registration of the client.
 // If the client is not registered, it will be nil.
 func (c *Client) Service() *Service {
