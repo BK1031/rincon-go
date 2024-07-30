@@ -43,6 +43,7 @@ func (c *Client) Service() *Service {
 	return c.service
 }
 
+// Rincon returns the Rincon server instance that the client is connected to.
 func (c *Client) Rincon() *Service {
 	return c.rincon
 }
