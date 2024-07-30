@@ -16,7 +16,7 @@ then
 fi
 
 # Create a release tag
-git tag v$version
+git tag v$version -m "Release version $version"
 git push origin v$version
 
 # Create a release
