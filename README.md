@@ -1,7 +1,7 @@
 # rincon-go
 
 [![GoDoc](https://pkg.go.dev/badge/github.com/bk1031/rincon-go?status.svg)](https://pkg.go.dev/github.com/bk1031/rincon-go?tab=doc)
-[![Release](https://img.shields.io/github/release/bk1031/rincon-go.svg?style=flat-square)](https://github.com/bk1031/rincon-go/releases)
+[![Release](https://img.shields.io/github/release/bk1031/rincon-go.svg?style=rounded)](https://github.com/bk1031/rincon-go/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 rincon-go is a client library for accessing the [Rincon API](https://github.com/bk1031/rincon).
